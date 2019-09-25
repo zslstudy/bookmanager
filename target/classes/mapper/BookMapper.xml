@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.BookDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <!-- 具体的sql -->
+
+    <!-- Book queryById(long id); 根据id搜索书 -->
+    <select id="queryById" resultType="Book" parameterType="long">
+        SELECT
+            book_id,
+            name,
+            number,
+            detail
+        FROM
+            book
+        WHERE
+            book_id = #{bookId}
+    </select>
+
+    <!-- List<Book> queryAll(@Param("offset") int offset,@Param("limit") int limit); 列出所有书 -->
+    <select id="queryAll" resultType="Book">
+        SELECT
+            book_id,
+            name,
+            number,
+            detail
+        FROM
+            book
+        ORDER BY
+            book_id
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- int addBook(Book book); 添加书 -->
+    <insert id="addBook">
+        INSERT INTO book(`book_id`,`name`,`number`,`detail`)
+        VALUES(#{book_id},#{name},#{number},#{detail})
+    </insert>
+
+    <!-- int updateBook(Book book); 修改书 -->
+    <update id="updateBook" parameterType="Book">
+        UPDATE
+            book
+        SET
+            name = #{name}
+            number = #{number}
+            detail = #{detail}
+        WHERE
+            book_id = #{book_id}
+        AND
+            number > 0
+    </update>
+
+    <!-- int deleteBookById(long id); 删除书 -->
+    <delete id="deleteBookById">
+        DELETE FROM
+            book
+        WHERE
+            book_id = #{book_id}
+    </delete>
+</mapper>
